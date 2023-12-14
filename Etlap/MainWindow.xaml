@@ -19,13 +19,13 @@
 		<DockPanel Grid.Row="0" >
 			<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 				<Button Content="Új étel felvétele" Width="150"/>
-				<Button Content="Törlés" Width="150"  />
+				<Button Content="Törlés" Width="150" Click="Delete_Click"  />
 			</StackPanel>
 		</DockPanel>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<TextBox Width="150"/>	
+			<TextBox Width="150" x:Name="szazelekTextBox"/>	
 			<Label Content="%" />
-			<Button Content="Emelés"/>
+			<Button Content="Emelés" Click="SzazalekButton_Click" x:Name="szazalekEmeles"/>
 		</StackPanel>
 		<StackPanel Grid.Row="2" Orientation="Horizontal">
 		<TextBox Width="150"/>
@@ -33,8 +33,8 @@
 			<Button Content="Emelés" />
 		</StackPanel>
 		<StackPanel Grid.Row="3" Orientation="Vertical">
-			<DataGrid x:Name="etlapTable" />
-			<Viewbox x:Name="etlapView" />
+			<DataGrid x:Name="etlapTable"  />
+			<Label x:Name="etlapLeiras"/>
 		</StackPanel>
 		
 

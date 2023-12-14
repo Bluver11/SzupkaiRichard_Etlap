@@ -12,6 +12,7 @@ namespace Etlap
 	{
 		MySqlConnection connection;
 
+		
 		public EtelekServices()
 		{
 			MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
@@ -23,6 +24,24 @@ namespace Etlap
 
 			connection = new MySqlConnection(builder.ConnectionString);
 		}
+
+		public bool Create(Etelek etelek)
+		{
+			OpenConnection();
+			string sql = "INSERT INTO dolgozok(nev,nem,kor,fizetes) VALUES(@nev,@leiras,@ar,@kategoria)";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText = sql;
+			command.Parameters.AddWithValue("@nev", etelek.Nev);
+			command.Parameters.AddWithValue("@leiras", etelek.Leiras);
+			command.Parameters.AddWithValue("@ar", etelek.Ar);
+			command.Parameters.AddWithValue("@kategoria", etelek.Kategoria);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection();
+			return affecRows == 1;
+
+		}
+
 		public List<Etelek> GetAll()
 		{
 			List<Etelek> etelek = new List<Etelek>();
@@ -50,8 +69,35 @@ namespace Etlap
 
 
 		}
+		public bool UpdateAll(int emeles)
+		{
+			OpenConnection();
+			string sql = @"UPDATE etlap 
+							SET		
+								ar=ar * @emeles";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText = sql;
+			command.Parameters.AddWithValue("@emeles", emeles);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection();
+			return affecRows == 1;
+		}
 
 
+
+		public bool Delete(int id)
+		{
+			OpenConnection();
+			string sql = "DELETE FROM etlap WHERE id=@id";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText = sql;
+			command.Parameters.AddWithValue("@id", id);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection();
+			return affecRows == 1;
+		}
 
 
 		private void ClosedConnection()

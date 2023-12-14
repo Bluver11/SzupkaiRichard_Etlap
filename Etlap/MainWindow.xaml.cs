@@ -20,7 +20,8 @@ namespace Etlap
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		EtelekServices etelekServices;
+		private EtelekServices etelekServices;
+		private Etelek EtelekToUpdate;
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -32,6 +33,26 @@ namespace Etlap
 		{
 			etlapTable.ItemsSource = etelekServices.GetAll();
 			etlapTable.AutoGenerateColumns = false;
+			DataGridTextColumn textColumn1 = new DataGridTextColumn();
+			DataGridTextColumn textColumn2 = new DataGridTextColumn();
+			DataGridTextColumn textColumn3 = new DataGridTextColumn();
+			textColumn1.Header = "Név";
+			textColumn1.Binding = new Binding("Nev");
+			etlapTable.Columns.Add(textColumn1);
+			textColumn2.Header = "Ár";
+			textColumn2.Binding = new Binding("Ar");
+			etlapTable.Columns.Add(textColumn2);
+			textColumn3.Header = "Kategoria";
+			textColumn3.Binding = new Binding("Kategoria");
+			etlapTable.Columns.Add(textColumn3);
+			
+			
+
+			
+		}
+		private void ReadUpdate()
+		{
+			etlapTable.ItemsSource = etelekServices.GetAll();
 		}
 
 		private void Delete_Click(object sender, RoutedEventArgs e)
@@ -53,7 +74,33 @@ namespace Etlap
 				{
 					MessageBox.Show("Hiba történt a törlés során!");
 				}
+				Read();
 			}
 		}
+
+
+		private void SzazalekButton_Click(object sender, RoutedEventArgs e)
+		{
+			int szazelek = Convert.ToInt32(szazelekTextBox.Text)/100+1;
+
+				Etelek selected = etlapTable.SelectedItem as Etelek;
+				if (selected==null)
+				{
+					etelekServices.UpdateAll(szazelek);
+					ReadUpdate();
+
+				}
+				else
+				{
+					
+				}
+		
+		}
+
+	
+
+
+
+
 	}
 }
