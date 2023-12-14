@@ -20,9 +20,40 @@ namespace Etlap
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		EtelekServices etelekServices;
 		public MainWindow()
 		{
 			InitializeComponent();
+			etelekServices = new EtelekServices();
+			Read();
+		}
+
+		private void Read()
+		{
+			etlapTable.ItemsSource = etelekServices.GetAll();
+			etlapTable.AutoGenerateColumns = false;
+		}
+
+		private void Delete_Click(object sender, RoutedEventArgs e)
+		{
+			Etelek selected = etlapTable.SelectedItem as Etelek;
+			if(selected == null)
+			{
+				MessageBox.Show("Törléshez előbb válasszon ki egy elemet!");
+				return;
+			}
+			MessageBoxResult clickedButton = MessageBox.Show($"Biztos hogy törölni akarod a kiválasztott elemet?:{selected.Nev}", "Törlés", MessageBoxButton.YesNo);
+			if(clickedButton == MessageBoxResult.Yes)
+			{
+				if (etelekServices.Delete(selected.Id))
+				{
+					MessageBox.Show("Sikeres törlés!");
+				}
+				else
+				{
+					MessageBox.Show("Hiba történt a törlés során!");
+				}
+			}
 		}
 	}
 }
