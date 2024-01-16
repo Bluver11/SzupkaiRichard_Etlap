@@ -69,7 +69,7 @@ namespace Etlap
 
 
 		}
-		public bool UpdateAll(int emeles)
+		public bool UpdateAllSzazalek(double emeles)
 		{
 			OpenConnection();
 			string sql = @"UPDATE etlap 
@@ -78,6 +78,46 @@ namespace Etlap
 			MySqlCommand command = connection.CreateCommand();
 			command.CommandText = sql;
 			command.Parameters.AddWithValue("@emeles", emeles);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection();
+			return affecRows == 1;
+		}
+
+		public bool UpdateSzazalek(double emeles,int id)
+		{
+			OpenConnection();
+			string sql = @"UPDATE etlap SET ar=ar*@emeles WHERE id=@id ";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText = sql;
+			command.Parameters.AddWithValue("@emeles", emeles);
+			command.Parameters.AddWithValue("@id", id);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection() ;
+			return affecRows == 1;
+		}
+
+		public bool UpdateAllPlusz(int emeles)
+		{
+			OpenConnection();
+			string sql = @"UPDATE etlap SET ar=ar+@emeles";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText= sql;
+			command.Parameters.AddWithValue("@emeles", emeles);
+			int affecRows = command.ExecuteNonQuery();
+
+			ClosedConnection();
+			return affecRows == 1;
+		}
+		public bool UpdatePlusz(int emeles,int id)
+		{
+			OpenConnection();
+			string sql = @"UPDATE etlap SET ar=ar+@emeles WHERE id=@id ";
+			MySqlCommand command = connection.CreateCommand();
+			command.CommandText = sql;
+			command.Parameters.AddWithValue("@emeles", emeles);
+			command.Parameters.AddWithValue("@id", id);
 			int affecRows = command.ExecuteNonQuery();
 
 			ClosedConnection();

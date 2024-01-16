@@ -81,26 +81,58 @@ namespace Etlap
 
 		private void SzazalekButton_Click(object sender, RoutedEventArgs e)
 		{
-			int szazelek = Convert.ToInt32(szazelekTextBox.Text)/100+1;
+			if (szazelekTextBox.Text == "")
+			{
+				MessageBox.Show("Előbb írjon be egy értéket hogy mennyi szazelékkal szeretné növelni.");
+				return;
+			}
+			int szazalek = Convert.ToInt32(szazelekTextBox.Text);
+			double szorzot  = Convert.ToDouble(szazalek) / 100 + 1;
+
 
 				Etelek selected = etlapTable.SelectedItem as Etelek;
+			    
 				if (selected==null)
 				{
-					etelekServices.UpdateAll(szazelek);
+					MessageBox.Show($"Az összes étel ára meglett növelve {szazalek.ToString()}%-kal lett megemelve");
+					etelekServices.UpdateAllSzazalek(szorzot);
 					ReadUpdate();
 
 				}
 				else
 				{
-					
+				MessageBox.Show($"A {selected.Nev} nevű étel ára meglett emelve {szazalek.ToString()}%-kal");
+					etelekServices.UpdateSzazalek(szorzot,selected.Id);
+					ReadUpdate();
+
 				}
-		
+
 		}
 
-	
+		private void PluszButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (pluszTextBox.Text == "")
+			{
+				MessageBox.Show("Előbb írjon be egy értéket hogy mennyivel szeretné növelni.");
+				return;
+			}
+			int emeles = Convert.ToInt32(pluszTextBox.Text);
+			Etelek selected = etlapTable.SelectedItem as Etelek;
 
+			if (selected == null)
+			{
+				MessageBox.Show($"Az összes étel árához hozzá lett adva {emeles.ToString()}Ft.");
+				etelekServices.UpdateAllPlusz(emeles);
+				ReadUpdate();
 
+			}
+			else
+			{
+				MessageBox.Show($"A {selected.Nev} nevű étel ára meglett emelve {emeles.ToString()}Ft-al");
+				etelekServices.UpdatePlusz(emeles, selected.Id);
+				ReadUpdate();
 
-
+			}
+		}
 	}
 }

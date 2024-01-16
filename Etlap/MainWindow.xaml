@@ -28,9 +28,9 @@
 			<Button Content="Emelés" Click="SzazalekButton_Click" x:Name="szazalekEmeles"/>
 		</StackPanel>
 		<StackPanel Grid.Row="2" Orientation="Horizontal">
-		<TextBox Width="150"/>
+		<TextBox Width="150" x:Name="pluszTextBox"/>
 			<Label Content="Ft" />
-			<Button Content="Emelés" />
+			<Button Content="Emelés" Click="PluszButton_Click" />
 		</StackPanel>
 		<StackPanel Grid.Row="3" Orientation="Vertical">
 			<DataGrid x:Name="etlapTable"  />
